@@ -28,21 +28,16 @@ const Results = () => {
       return;
     }
 
-    // Calculate match rate by comparing with creator's answers
-    if (quiz.creatorAnswers && quiz.creatorAnswers.length > 0) {
-      const matches = attempt.answers.filter(takerAnswer => {
-        const creatorAnswer = quiz.creatorAnswers?.find(ca => ca.questionId === takerAnswer.questionId);
-        return creatorAnswer && creatorAnswer.choice === takerAnswer.choice;
-      }).length;
-      const rate = Math.round((matches / quiz.questions.length) * 100);
-      setMatchRate(rate);
-    } else {
-      // Fallback if no creator answers
-      setMatchRate(100);
-    }
+    // Calculate score based on correct answers
+    const correctCount = attempt.answers.filter(takerAnswer => {
+      const question = quiz.questions.find(q => q.id === takerAnswer.questionId);
+      return question && question.expectedChoice === takerAnswer.choice;
+    }).length;
+    const rate = Math.round((correctCount / quiz.questions.length) * 100);
+    setMatchRate(rate);
 
-    // Show confetti for high match rate
-    if (matchRate >= 70 && !showConfetti) {
+    // Show confetti for high score
+    if (rate >= 70 && !showConfetti) {
       setShowConfetti(true);
       const duration = 3000;
       const end = Date.now() + duration;
@@ -143,7 +138,7 @@ const Results = () => {
                 {matchRate}%
               </motion.div>
               <p className="text-base text-muted-foreground font-medium">
-                Match Score
+                Your Score
               </p>
             </motion.div>
 
@@ -204,12 +199,12 @@ const Results = () => {
         {/* Question Breakdown */}
         <div className="space-y-6">
           <h2 className="text-3xl font-serif font-bold text-beige">
-            Your Answers
+            Answer Breakdown
           </h2>
 
           {quiz.questions.map((question, index) => {
             const answer = attempt.answers.find(a => a.questionId === question.id);
-            const choice = answer?.choice === 'A' ? question.choiceA : question.choiceB;
+            const isCorrect = answer?.choice === question.expectedChoice;
 
             return (
               <motion.div
@@ -219,18 +214,33 @@ const Results = () => {
                 transition={{ delay: 0.7 + index * 0.1 }}
               >
                 <Card className="glass-card p-8 space-y-4 smooth-hover">
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center text-base font-bold">
-                      {index + 1}
-                    </div>
-                    <div className="flex-1 space-y-3">
-                      <p className="font-medium text-lg">{question.prompt}</p>
-                      <div className="flex items-center gap-3">
-                        <span className="text-sm text-muted-foreground">You chose:</span>
-                        <span className="text-base font-medium text-gold">
-                          {answer?.choice}: {choice}
-                        </span>
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex-1 space-y-4">
+                      <div className="flex items-start gap-4">
+                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center text-base font-bold">
+                          {index + 1}
+                        </div>
+                        <p className="font-medium text-lg pt-1">{question.prompt}</p>
                       </div>
+                      <div className="pl-14 space-y-2">
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm text-muted-foreground">Your answer:</span>
+                          <span className={`text-base font-medium ${isCorrect ? 'text-green-500' : 'text-red-400'}`}>
+                            {answer?.choice}: {answer?.choice === 'A' ? question.choiceA : question.choiceB}
+                          </span>
+                        </div>
+                        {!isCorrect && (
+                          <div className="flex items-center gap-2">
+                            <span className="text-sm text-muted-foreground">Correct answer:</span>
+                            <span className="text-base font-medium text-green-500">
+                              {question.expectedChoice}: {question.expectedChoice === 'A' ? question.choiceA : question.choiceB}
+                            </span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    <div className="text-3xl flex-shrink-0">
+                      {isCorrect ? '✅' : '❌'}
                     </div>
                   </div>
                 </Card>
