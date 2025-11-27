@@ -103,40 +103,61 @@ const CreateQuiz = () => {
 
   if (generatedCode) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-4">
-        <Logo />
+      <div className="min-h-screen flex flex-col items-center justify-center p-6">
+        <motion.div
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <Logo />
+        </motion.div>
+        
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="w-full max-w-md mt-6"
+          transition={{ delay: 0.3, type: "spring" }}
+          className="w-full max-w-lg mt-8"
         >
-          <Card className="glass-card p-8 text-center space-y-6">
-            <div className="text-6xl">🎉</div>
-            <div>
-              <h2 className="text-3xl font-serif font-bold mb-2">Quiz Created!</h2>
-              <p className="text-muted-foreground">Share this code with your partner</p>
+          <Card className="glass-card p-10 text-center space-y-8">
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.5, type: "spring" }}
+              className="text-7xl"
+            >
+              🎉
+            </motion.div>
+            
+            <div className="space-y-2">
+              <h2 className="text-4xl font-serif font-bold mb-3">Quiz Created!</h2>
+              <p className="text-muted-foreground text-lg">Share this code with your partner</p>
             </div>
             
-            <div className="bg-primary/10 p-6 rounded-lg">
-              <p className="text-sm text-muted-foreground mb-2">Quiz Code</p>
-              <p className="text-4xl font-bold font-mono tracking-widest text-gold">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7 }}
+              className="bg-primary/10 p-8 rounded-xl elegant-border"
+            >
+              <p className="text-sm text-muted-foreground mb-3">Quiz Code</p>
+              <p className="text-5xl font-bold font-mono tracking-widest text-gold">
                 {generatedCode}
               </p>
-            </div>
+            </motion.div>
 
             <Button 
               onClick={copyToClipboard} 
-              className="w-full"
+              className="w-full smooth-hover py-7 text-lg"
               size="lg"
             >
               {copied ? (
                 <>
-                  <Check className="w-4 h-4 mr-2" />
+                  <Check className="w-5 h-5 mr-2" />
                   Copied!
                 </>
               ) : (
                 <>
-                  <Copy className="w-4 h-4 mr-2" />
+                  <Copy className="w-5 h-5 mr-2" />
                   Copy Link
                 </>
               )}
@@ -145,7 +166,7 @@ const CreateQuiz = () => {
             <Button 
               variant="outline" 
               onClick={() => navigate('/')}
-              className="w-full"
+              className="w-full elegant-border smooth-hover py-6"
             >
               Back to Home
             </Button>
@@ -156,30 +177,37 @@ const CreateQuiz = () => {
   }
 
   return (
-    <div className="min-h-screen p-4 py-8">
-      <div className="w-full max-w-2xl mx-auto space-y-6">
-        <Logo />
+    <div className="min-h-screen p-6 py-10">
+      <div className="w-full max-w-3xl mx-auto space-y-8">
+        <motion.div
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <Logo />
+        </motion.div>
+        
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.2 }}
         >
           <Button
             variant="ghost"
             onClick={() => navigate('/')}
-            className="mb-4 text-beige hover:text-gold"
+            className="text-beige hover:text-gold transition-colors"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back
           </Button>
-
         </motion.div>
 
-        <div className="space-y-4">
+        <div className="space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-serif font-bold text-beige">
+            <h2 className="text-2xl font-serif font-bold text-beige">
               Questions ({questions.length})
             </h2>
-            <Button onClick={addQuestion} size="sm" variant="outline">
+            <Button onClick={addQuestion} size="sm" variant="outline" className="elegant-border">
               <Plus className="w-4 h-4 mr-2" />
               Add Question
             </Button>
@@ -194,18 +222,20 @@ const CreateQuiz = () => {
                 exit={{ opacity: 0, x: -100 }}
                 layout
               >
-                <Card className="glass-card p-6 space-y-4">
+                <Card className="glass-card p-8 space-y-6 smooth-hover">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <GripVertical className="w-4 h-4 text-muted-foreground" />
-                      <span className="font-semibold">Question {index + 1}</span>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-full bg-gold/20 flex items-center justify-center">
+                        <span className="text-sm font-bold text-gold">{index + 1}</span>
+                      </div>
+                      <span className="font-semibold text-lg">Question {index + 1}</span>
                     </div>
                     {questions.length > 1 && (
                       <Button
                         variant="ghost"
                         size="sm"
                         onClick={() => removeQuestion(question.id)}
-                        className="text-destructive hover:text-destructive"
+                        className="text-destructive hover:text-destructive transition-colors"
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
@@ -278,7 +308,7 @@ const CreateQuiz = () => {
           <Button
             onClick={handleCreate}
             size="lg"
-            className="w-full gold-glow"
+            className="w-full gold-glow smooth-hover py-7 text-lg font-medium"
           >
             Create Quiz ✨
           </Button>

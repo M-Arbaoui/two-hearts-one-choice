@@ -79,13 +79,20 @@ const Results = () => {
   }
 
   return (
-    <div className="min-h-screen p-4 py-8">
-      <div className="w-full max-w-2xl mx-auto space-y-6">
-        <Logo />
+    <div className="min-h-screen p-6 py-10">
+      <div className="w-full max-w-3xl mx-auto space-y-8">
+        <motion.div
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+        >
+          <Logo />
+        </motion.div>
+        
         <Button
           variant="ghost"
           onClick={() => navigate('/')}
-          className="text-beige hover:text-gold"
+          className="text-beige hover:text-gold transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Home
@@ -95,48 +102,53 @@ const Results = () => {
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.6, type: "spring" }}
         >
-          <Card className="glass-card p-8 text-center space-y-6">
+          <Card className="glass-card p-12 text-center space-y-8">
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: "spring" }}
+              transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
             >
-              <Heart className="w-20 h-20 text-gold mx-auto fill-gold" />
+              <Heart className="w-24 h-24 text-gold mx-auto fill-gold drop-shadow-xl" />
             </motion.div>
 
-            <div className="space-y-2">
-              <h1 className="text-4xl font-serif font-bold">Quiz Complete!</h1>
-              <p className="text-muted-foreground text-lg">
+            <div className="space-y-3">
+              <h1 className="text-5xl font-serif font-bold">Quiz Complete!</h1>
+              <p className="text-muted-foreground text-xl">
                 You answered all {quiz.questions.length} questions
               </p>
             </div>
 
-            <div className="bg-primary/10 p-6 rounded-lg">
+            <motion.div 
+              className="bg-primary/10 p-10 rounded-xl elegant-border"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+            >
               <motion.div
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
-                transition={{ delay: 0.4, type: "spring" }}
-                className="text-6xl font-bold text-gold mb-2"
+                transition={{ delay: 0.6, type: "spring" }}
+                className="text-7xl font-bold text-gold mb-3"
               >
                 {matchRate}%
               </motion.div>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-base text-muted-foreground font-medium">
                 Connection Score
               </p>
-            </div>
+            </motion.div>
 
-            <Button onClick={handleShare} variant="outline" className="w-full">
-              <Share2 className="w-4 h-4 mr-2" />
+            <Button onClick={handleShare} variant="outline" className="w-full elegant-border smooth-hover py-6 text-lg">
+              <Share2 className="w-5 h-5 mr-2" />
               Share Quiz
             </Button>
           </Card>
         </motion.div>
 
         {/* Question Breakdown */}
-        <div className="space-y-4">
-          <h2 className="text-2xl font-serif font-bold text-beige">
+        <div className="space-y-6">
+          <h2 className="text-3xl font-serif font-bold text-beige">
             Your Answers
           </h2>
 
@@ -149,18 +161,18 @@ const Results = () => {
                 key={question.id}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.5 + index * 0.1 }}
+                transition={{ delay: 0.7 + index * 0.1 }}
               >
-                <Card className="glass-card p-6 space-y-3">
-                  <div className="flex items-start gap-3">
-                    <div className="flex-shrink-0 w-8 h-8 rounded-full bg-gold/20 flex items-center justify-center text-sm font-bold">
+                <Card className="glass-card p-8 space-y-4 smooth-hover">
+                  <div className="flex items-start gap-4">
+                    <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center text-base font-bold">
                       {index + 1}
                     </div>
-                    <div className="flex-1 space-y-2">
-                      <p className="font-medium">{question.prompt}</p>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-muted-foreground">You chose:</span>
-                        <span className="text-sm font-medium text-gold">
+                    <div className="flex-1 space-y-3">
+                      <p className="font-medium text-lg">{question.prompt}</p>
+                      <div className="flex items-center gap-3">
+                        <span className="text-sm text-muted-foreground">You chose:</span>
+                        <span className="text-base font-medium text-gold">
                           {answer?.choice}: {choice}
                         </span>
                       </div>
@@ -190,17 +202,17 @@ const Results = () => {
         )}
 
         {/* Actions */}
-        <div className="flex gap-4">
+        <div className="flex gap-6">
           <Button
             onClick={() => navigate('/create')}
             variant="outline"
-            className="flex-1"
+            className="flex-1 elegant-border smooth-hover py-6 text-lg"
           >
             Create Your Own
           </Button>
           <Button
             onClick={() => navigate('/take')}
-            className="flex-1"
+            className="flex-1 smooth-hover py-6 text-lg"
           >
             Take Another Quiz
           </Button>

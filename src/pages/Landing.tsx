@@ -5,46 +5,58 @@ import Logo from '@/components/Logo';
 
 const Landing = () => {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 relative">
-      <div className="w-full max-w-md mx-auto space-y-8">
-        <Logo />
+    <div className="min-h-screen flex flex-col items-center justify-center p-6 relative">
+      <div className="w-full max-w-lg mx-auto space-y-12">
+        <motion.div
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
+          <Logo />
+        </motion.div>
+        
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center space-y-6"
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="text-center space-y-8"
         >
           {/* Title */}
-          <div className="space-y-2">
-            <h1 className="text-6xl font-bold text-beige tracking-tight">
+          <div className="space-y-3">
+            <h1 className="text-7xl md:text-8xl font-bold text-beige tracking-tight drop-shadow-lg">
               You & I
             </h1>
-            <p className="text-xl text-beige/80 font-light">
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="text-2xl text-beige/90 font-light tracking-wide"
+            >
               Would You Rather...
-            </p>
+            </motion.p>
           </div>
 
           {/* Description */}
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="text-beige/70 text-lg max-w-sm mx-auto leading-relaxed"
+            transition={{ delay: 0.7 }}
+            className="text-beige/80 text-lg max-w-md mx-auto leading-relaxed px-4"
           >
             A private, intimate game to discover how well you know each other
           </motion.p>
 
           {/* CTA Buttons */}
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-            className="space-y-4 pt-4"
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9 }}
+            className="space-y-4 pt-6"
           >
             <Link to="/create" className="block">
               <Button 
                 size="lg" 
-                className="w-full glass-card hover:gold-glow transition-all duration-200 hover:scale-105 text-lg py-6"
+                className="w-full smooth-hover gold-glow text-lg py-7 font-medium"
               >
                 Create Quiz
               </Button>
@@ -54,7 +66,7 @@ const Landing = () => {
               <Button 
                 variant="outline"
                 size="lg" 
-                className="w-full glass-card border-gold/30 hover:border-gold/50 hover:bg-beige/10 transition-all duration-200 hover:scale-105 text-lg py-6"
+                className="w-full elegant-border smooth-hover text-lg py-7 font-medium"
               >
                 Take Quiz
               </Button>
@@ -65,12 +77,12 @@ const Landing = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
-            className="pt-8"
+            transition={{ delay: 1.2 }}
+            className="pt-12"
           >
             <Link 
               to="/secret" 
-              className="text-beige/40 hover:text-gold/60 text-sm transition-colors duration-200"
+              className="text-beige/30 hover:text-gold/70 text-2xl transition-all duration-300 hover:scale-125 inline-block"
             >
               ✨
             </Link>
