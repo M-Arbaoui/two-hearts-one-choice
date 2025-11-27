@@ -8,6 +8,7 @@ import { Card } from '@/components/ui/card';
 import { Progress } from '@/components/ui/progress';
 import { useQuizStore, Answer } from '@/store/quizStore';
 import { useToast } from '@/hooks/use-toast';
+import Logo from '@/components/Logo';
 
 const TakeQuiz = () => {
   const navigate = useNavigate();
@@ -91,11 +92,12 @@ const TakeQuiz = () => {
   // Code entry screen
   if (!quiz) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="min-h-screen flex flex-col items-center justify-center p-4">
+        <Logo />
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="w-full max-w-md"
+          className="w-full max-w-md mt-6"
         >
           <Button
             variant="ghost"
@@ -148,8 +150,9 @@ const TakeQuiz = () => {
   const progress = ((currentQuestionIndex + 1) / quiz.questions.length) * 100;
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="w-full max-w-md space-y-6">
+    <div className="min-h-screen flex flex-col items-center justify-center p-4">
+      <Logo />
+      <div className="w-full max-w-md space-y-6 mt-6">
         {/* Progress */}
         <motion.div
           initial={{ opacity: 0 }}
