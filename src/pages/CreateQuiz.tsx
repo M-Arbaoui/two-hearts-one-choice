@@ -9,6 +9,7 @@ import { Card } from '@/components/ui/card';
 import { useQuizStore, Question } from '@/store/quizStore';
 import { useToast } from '@/hooks/use-toast';
 import { Label } from '@/components/ui/label';
+import Logo from '@/components/Logo';
 
 const CreateQuiz = () => {
   const navigate = useNavigate();
@@ -107,11 +108,12 @@ const CreateQuiz = () => {
 
   if (generatedCode) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
+      <div className="min-h-screen flex flex-col items-center justify-center p-4">
+        <Logo />
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="w-full max-w-md"
+          className="w-full max-w-md mt-6"
         >
           <Card className="glass-card p-8 text-center space-y-6">
             <div className="text-6xl">🎉</div>
@@ -161,6 +163,7 @@ const CreateQuiz = () => {
   return (
     <div className="min-h-screen p-4 py-8">
       <div className="w-full max-w-2xl mx-auto space-y-6">
+        <Logo />
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}

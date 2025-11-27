@@ -7,6 +7,7 @@ import { Card } from '@/components/ui/card';
 import { useQuizStore } from '@/store/quizStore';
 import { useToast } from '@/hooks/use-toast';
 import confetti from 'canvas-confetti';
+import Logo from '@/components/Logo';
 
 const Results = () => {
   const navigate = useNavigate();
@@ -80,6 +81,7 @@ const Results = () => {
   return (
     <div className="min-h-screen p-4 py-8">
       <div className="w-full max-w-2xl mx-auto space-y-6">
+        <Logo />
         <Button
           variant="ghost"
           onClick={() => navigate('/')}

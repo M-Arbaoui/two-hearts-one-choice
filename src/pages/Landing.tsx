@@ -2,16 +2,18 @@ import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Heart, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import Logo from '@/components/Logo';
 
 const Landing = () => {
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 relative">
-      <div className="w-full max-w-md mx-auto">
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 relative">
+      <div className="w-full max-w-md mx-auto space-y-8">
+        <Logo />
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-center space-y-8"
+          className="text-center space-y-6"
         >
           {/* Logo/Icon */}
           <motion.div

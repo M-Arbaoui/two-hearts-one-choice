@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Heart, ArrowLeft, FastForward } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import Logo from '@/components/Logo';
 
 const SecretMessage = () => {
   const navigate = useNavigate();
@@ -33,8 +34,9 @@ const SecretMessage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <div className="w-full max-w-2xl space-y-6">
+    <div className="min-h-screen flex flex-col items-center justify-center p-4">
+      <Logo />
+      <div className="w-full max-w-2xl space-y-6 mt-6">
         <Button
           variant="ghost"
           onClick={() => navigate('/')}
