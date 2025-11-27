@@ -162,11 +162,12 @@ const CreateQuiz = () => {
 
   if (generatedCode) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-6">
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 md:p-8">
         <motion.div
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
+          className="mb-6 sm:mb-8"
         >
           <Logo />
         </motion.div>
@@ -175,48 +176,48 @@ const CreateQuiz = () => {
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.3, type: "spring" }}
-          className="w-full max-w-lg mt-8"
+          className="w-full max-w-lg"
         >
-          <Card className="glass-card p-10 text-center space-y-8">
+          <Card className="glass-card p-6 sm:p-8 md:p-10 text-center space-y-6 sm:space-y-8">
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
               transition={{ delay: 0.5, type: "spring" }}
-              className="text-7xl"
+              className="text-5xl sm:text-6xl md:text-7xl"
             >
               🎉
             </motion.div>
             
             <div className="space-y-2">
-              <h2 className="text-4xl font-serif font-bold mb-3">Quiz Created!</h2>
-              <p className="text-muted-foreground text-lg">Share this code with your partner</p>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold mb-2 sm:mb-3">Quiz Created!</h2>
+              <p className="text-muted-foreground text-base sm:text-lg px-4">Share this code with your partner</p>
             </div>
             
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.7 }}
-              className="bg-primary/10 p-8 rounded-xl elegant-border"
+              className="bg-primary/10 p-6 sm:p-8 rounded-xl elegant-border"
             >
-              <p className="text-sm text-muted-foreground mb-3">Quiz Code</p>
-              <p className="text-5xl font-bold font-mono tracking-widest text-gold">
+              <p className="text-xs sm:text-sm text-muted-foreground mb-2 sm:mb-3">Quiz Code</p>
+              <p className="text-4xl sm:text-5xl md:text-6xl font-bold font-mono tracking-widest text-gold">
                 {generatedCode}
               </p>
             </motion.div>
 
             <Button 
               onClick={copyToClipboard} 
-              className="w-full smooth-hover py-7 text-lg"
+              className="w-full smooth-hover py-6 sm:py-7 text-base sm:text-lg touch-manipulation"
               size="lg"
             >
               {copied ? (
                 <>
-                  <Check className="w-5 h-5 mr-2" />
+                  <Check className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                   Copied!
                 </>
               ) : (
                 <>
-                  <Copy className="w-5 h-5 mr-2" />
+                  <Copy className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
                   Copy Link
                 </>
               )}
@@ -225,7 +226,7 @@ const CreateQuiz = () => {
             <Button 
               variant="outline" 
               onClick={() => navigate('/')}
-              className="w-full elegant-border smooth-hover py-6"
+              className="w-full elegant-border smooth-hover py-5 sm:py-6 touch-manipulation"
             >
               Back to Home
             </Button>
@@ -237,8 +238,8 @@ const CreateQuiz = () => {
 
 
   return (
-    <div className="min-h-screen p-6 py-10">
-      <div className="w-full max-w-3xl mx-auto space-y-8">
+    <div className="min-h-screen p-4 sm:p-6 md:p-8 py-6 sm:py-8 md:py-10">
+      <div className="w-full max-w-3xl mx-auto space-y-6 sm:space-y-8">
         <motion.div
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -262,12 +263,12 @@ const CreateQuiz = () => {
           </Button>
         </motion.div>
 
-        <div className="space-y-6">
-          <div className="flex items-center justify-between">
-            <h2 className="text-2xl font-serif font-bold text-beige">
+        <div className="space-y-5 sm:space-y-6">
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-0">
+            <h2 className="text-xl sm:text-2xl font-serif font-bold text-beige">
               Questions ({questions.length})
             </h2>
-            <Button onClick={addQuestion} size="sm" variant="outline" className="elegant-border">
+            <Button onClick={addQuestion} size="sm" variant="outline" className="elegant-border touch-manipulation w-full sm:w-auto">
               <Plus className="w-4 h-4 mr-2" />
               Add Question
             </Button>
@@ -277,25 +278,29 @@ const CreateQuiz = () => {
             {questions.map((question, index) => (
               <motion.div
                 key={question.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, x: -100 }}
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, x: -50 }}
+                transition={{
+                  duration: 0.4,
+                  ease: [0.43, 0.13, 0.23, 0.96]
+                }}
                 layout
               >
-                <Card className="glass-card p-8 space-y-6 smooth-hover">
+                <Card className="glass-card p-5 sm:p-6 md:p-8 space-y-5 sm:space-y-6 smooth-hover">
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 rounded-full bg-gold/20 flex items-center justify-center">
-                        <span className="text-sm font-bold text-gold">{index + 1}</span>
+                    <div className="flex items-center gap-2 sm:gap-3">
+                      <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-gold/20 flex items-center justify-center flex-shrink-0">
+                        <span className="text-xs sm:text-sm font-bold text-gold">{index + 1}</span>
                       </div>
-                      <span className="font-semibold text-lg">Question {index + 1}</span>
+                      <span className="font-semibold text-base sm:text-lg">Question {index + 1}</span>
                     </div>
                     {questions.length > 1 && (
                       <Button
                         variant="ghost"
                         size="sm"
                         onClick={() => removeQuestion(question.id)}
-                        className="text-destructive hover:text-destructive transition-colors"
+                        className="text-destructive hover:text-destructive transition-colors touch-manipulation"
                       >
                         <Trash2 className="w-4 h-4" />
                       </Button>
@@ -303,7 +308,7 @@ const CreateQuiz = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Would you rather...</Label>
+                    <Label className="text-sm sm:text-base">Would you rather...</Label>
                     <Input
                       value={question.prompt}
                       onChange={(e) =>
@@ -311,13 +316,13 @@ const CreateQuiz = () => {
                       }
                       placeholder="e.g., explore the ocean depths or outer space?"
                       maxLength={120}
-                      className="bg-background/50"
+                      className="bg-background/50 touch-manipulation"
                     />
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-4">
                     <div className="space-y-3">
-                      <Label>Choice A</Label>
+                      <Label className="text-sm sm:text-base">Choice A</Label>
                       <Input
                         value={question.choiceA}
                         onChange={(e) =>
@@ -325,24 +330,26 @@ const CreateQuiz = () => {
                         }
                         placeholder="Ocean depths"
                         maxLength={120}
-                        className="bg-background/50"
+                        className="bg-background/50 touch-manipulation"
                       />
                       <div className="space-y-2">
                         {question.choiceAImage ? (
                           <div className="relative">
-                            <img 
+                            <motion.img 
                               src={question.choiceAImage} 
                               alt="Choice A" 
-                              className="w-full h-32 object-cover rounded-lg"
+                              className="w-full h-28 sm:h-32 object-cover rounded-lg"
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
                             />
                             <Button
                               type="button"
                               size="sm"
                               variant="destructive"
-                              className="absolute top-2 right-2"
+                              className="absolute top-2 right-2 touch-manipulation"
                               onClick={() => removeImage(question.id, 'A')}
                             >
-                              <X className="w-4 h-4" />
+                              <X className="w-3 h-3 sm:w-4 sm:h-4" />
                             </Button>
                           </div>
                         ) : (
@@ -359,17 +366,17 @@ const CreateQuiz = () => {
                             />
                             <Label
                               htmlFor={`image-a-${question.id}`}
-                              className="flex items-center justify-center gap-2 p-3 border-2 border-dashed rounded-lg cursor-pointer hover:bg-accent/50 transition-colors"
+                              className="flex items-center justify-center gap-2 p-3 border-2 border-dashed rounded-lg cursor-pointer hover:bg-accent/50 transition-colors touch-manipulation"
                             >
                               <ImageIcon className="w-4 h-4" />
-                              <span className="text-sm">Add image (optional)</span>
+                              <span className="text-xs sm:text-sm">Add image</span>
                             </Label>
                           </div>
                         )}
                       </div>
                     </div>
                     <div className="space-y-3">
-                      <Label>Choice B</Label>
+                      <Label className="text-sm sm:text-base">Choice B</Label>
                       <Input
                         value={question.choiceB}
                         onChange={(e) =>
@@ -377,24 +384,26 @@ const CreateQuiz = () => {
                         }
                         placeholder="Outer space"
                         maxLength={120}
-                        className="bg-background/50"
+                        className="bg-background/50 touch-manipulation"
                       />
                       <div className="space-y-2">
                         {question.choiceBImage ? (
                           <div className="relative">
-                            <img 
+                            <motion.img 
                               src={question.choiceBImage} 
                               alt="Choice B" 
-                              className="w-full h-32 object-cover rounded-lg"
+                              className="w-full h-28 sm:h-32 object-cover rounded-lg"
+                              initial={{ opacity: 0 }}
+                              animate={{ opacity: 1 }}
                             />
                             <Button
                               type="button"
                               size="sm"
                               variant="destructive"
-                              className="absolute top-2 right-2"
+                              className="absolute top-2 right-2 touch-manipulation"
                               onClick={() => removeImage(question.id, 'B')}
                             >
-                              <X className="w-4 h-4" />
+                              <X className="w-3 h-3 sm:w-4 sm:h-4" />
                             </Button>
                           </div>
                         ) : (
@@ -411,10 +420,10 @@ const CreateQuiz = () => {
                             />
                             <Label
                               htmlFor={`image-b-${question.id}`}
-                              className="flex items-center justify-center gap-2 p-3 border-2 border-dashed rounded-lg cursor-pointer hover:bg-accent/50 transition-colors"
+                              className="flex items-center justify-center gap-2 p-3 border-2 border-dashed rounded-lg cursor-pointer hover:bg-accent/50 transition-colors touch-manipulation"
                             >
                               <ImageIcon className="w-4 h-4" />
-                              <span className="text-sm">Add image (optional)</span>
+                              <span className="text-xs sm:text-sm">Add image</span>
                             </Label>
                           </div>
                         )}
@@ -423,7 +432,7 @@ const CreateQuiz = () => {
                   </div>
 
                   <div className="space-y-2">
-                    <Label>Hint or Note (optional)</Label>
+                    <Label className="text-sm sm:text-base">Hint or Note (optional)</Label>
                     <Input
                       value={question.hint || ''}
                       onChange={(e) =>
@@ -431,18 +440,18 @@ const CreateQuiz = () => {
                       }
                       placeholder="A loving note or hint..."
                       maxLength={120}
-                      className="bg-background/50"
+                      className="bg-background/50 touch-manipulation"
                     />
                   </div>
 
                   <div className="space-y-3">
-                    <Label className="text-gold">Correct Answer ⭐</Label>
-                    <div className="grid grid-cols-2 gap-4">
+                    <Label className="text-gold text-sm sm:text-base">Correct Answer ⭐</Label>
+                    <div className="grid grid-cols-2 gap-3 sm:gap-4">
                       <Button
                         type="button"
                         variant={question.expectedChoice === 'A' ? 'default' : 'outline'}
                         onClick={() => updateQuestion(question.id, 'expectedChoice', 'A')}
-                        className="elegant-border smooth-hover py-6"
+                        className="elegant-border smooth-hover py-5 sm:py-6 touch-manipulation text-sm sm:text-base"
                       >
                         A is correct
                       </Button>
@@ -450,7 +459,7 @@ const CreateQuiz = () => {
                         type="button"
                         variant={question.expectedChoice === 'B' ? 'default' : 'outline'}
                         onClick={() => updateQuestion(question.id, 'expectedChoice', 'B')}
-                        className="elegant-border smooth-hover py-6"
+                        className="elegant-border smooth-hover py-5 sm:py-6 touch-manipulation text-sm sm:text-base"
                       >
                         B is correct
                       </Button>
@@ -470,7 +479,7 @@ const CreateQuiz = () => {
           <Button
             onClick={handleCreate}
             size="lg"
-            className="w-full gold-glow smooth-hover py-7 text-lg font-medium"
+            className="w-full gold-glow smooth-hover py-6 sm:py-7 text-base sm:text-lg font-medium touch-manipulation"
           >
             Create Quiz ✨
           </Button>
