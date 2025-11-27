@@ -1,6 +1,5 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Heart, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Logo from '@/components/Logo';
 
@@ -15,25 +14,6 @@ const Landing = () => {
           transition={{ duration: 0.6 }}
           className="text-center space-y-6"
         >
-          {/* Logo/Icon */}
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-            className="flex justify-center"
-          >
-            <div className="relative">
-              <Heart className="w-20 h-20 text-gold fill-gold" />
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                className="absolute -top-2 -right-2"
-              >
-                <Sparkles className="w-8 h-8 text-gold" />
-              </motion.div>
-            </div>
-          </motion.div>
-
           {/* Title */}
           <div className="space-y-2">
             <h1 className="text-6xl font-bold text-beige tracking-tight">
