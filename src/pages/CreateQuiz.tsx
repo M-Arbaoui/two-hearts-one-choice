@@ -16,9 +16,6 @@ const CreateQuiz = () => {
   const { toast } = useToast();
   const createQuiz = useQuizStore((state) => state.createQuiz);
   
-  const [title, setTitle] = useState('Our Special Quiz');
-  const [description, setDescription] = useState('');
-  const [secretMessage, setSecretMessage] = useState('');
   const [questions, setQuestions] = useState<Question[]>([
     { id: '1', prompt: '', choiceA: '', choiceB: '', hint: '' },
   ]);
@@ -80,10 +77,8 @@ const CreateQuiz = () => {
     if (!validateQuiz()) return;
 
     const code = createQuiz({
-      title,
-      description,
+      title: 'Our Quiz',
       questions,
-      secretMessage: secretMessage.trim() || undefined,
     });
 
     setGeneratedCode(code);
@@ -177,47 +172,6 @@ const CreateQuiz = () => {
             Back
           </Button>
 
-          <Card className="glass-card p-6 space-y-4">
-            <h1 className="text-3xl font-serif font-bold">Create Your Quiz</h1>
-            
-            <div className="space-y-2">
-              <Label htmlFor="title">Quiz Title</Label>
-              <Input
-                id="title"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
-                placeholder="Our Special Quiz"
-                maxLength={60}
-                className="bg-background/50"
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="description">Description (optional)</Label>
-              <Textarea
-                id="description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder="A fun quiz for us..."
-                maxLength={200}
-                className="bg-background/50 resize-none"
-                rows={2}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="secret">Secret Message (optional)</Label>
-              <Textarea
-                id="secret"
-                value={secretMessage}
-                onChange={(e) => setSecretMessage(e.target.value)}
-                placeholder="A special message that will be revealed at the end..."
-                maxLength={500}
-                className="bg-background/50 resize-none"
-                rows={3}
-              />
-            </div>
-          </Card>
         </motion.div>
 
         <div className="space-y-4">
