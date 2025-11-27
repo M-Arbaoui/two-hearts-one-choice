@@ -83,11 +83,21 @@
 
 @layer utilities {
   .glass-card {
-    @apply bg-card/95 backdrop-blur-sm border border-gold/20 shadow-xl;
+    @apply bg-card backdrop-blur-xl border border-gold/30 shadow-2xl;
+    background-color: hsl(var(--card) / 0.98);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 0 1px hsl(var(--gold) / 0.2);
   }
   
   .gold-glow {
-    box-shadow: 0 0 20px hsl(var(--gold) / 0.3);
+    box-shadow: 0 0 30px hsl(var(--gold) / 0.4), 0 0 60px hsl(var(--gold) / 0.2);
+  }
+  
+  .elegant-border {
+    @apply border-2 border-gold/20 hover:border-gold/40 transition-all duration-300;
+  }
+  
+  .smooth-hover {
+    @apply transition-all duration-300 ease-out hover:scale-[1.02] hover:shadow-xl;
   }
 }
 

@@ -34,13 +34,20 @@ const SecretMessage = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4">
-      <Logo />
-      <div className="w-full max-w-2xl space-y-6 mt-6">
+    <div className="min-h-screen flex flex-col items-center justify-center p-6">
+      <motion.div
+        initial={{ opacity: 0, y: -30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+      >
+        <Logo />
+      </motion.div>
+      
+      <div className="w-full max-w-3xl space-y-8 mt-8">
         <Button
           variant="ghost"
           onClick={() => navigate('/')}
-          className="text-beige hover:text-gold"
+          className="text-beige hover:text-gold transition-colors"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back
@@ -49,50 +56,56 @@ const SecretMessage = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.8, delay: 0.3 }}
         >
-          <Card className="glass-card p-12 text-center space-y-8">
+          <Card className="glass-card p-16 text-center space-y-10">
             <motion.div
               initial={{ scale: 0 }}
               animate={{ scale: 1 }}
-              transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
+              transition={{ delay: 0.5, type: "spring", stiffness: 200 }}
             >
-              <Heart className="w-24 h-24 text-gold mx-auto fill-gold" />
+              <Heart className="w-28 h-28 text-gold mx-auto fill-gold drop-shadow-2xl" />
             </motion.div>
 
-            <div className="space-y-4">
-              <h1 className="text-4xl font-serif font-bold text-beige">
+            <div className="space-y-6">
+              <h1 className="text-5xl font-serif font-bold text-beige">
                 A Secret Message
               </h1>
               
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 0.4 }}
-                className="min-h-[120px] flex items-center justify-center"
+                transition={{ delay: 0.7 }}
+                className="min-h-[140px] flex items-center justify-center px-4"
               >
-                <p className="text-2xl leading-relaxed font-light text-beige/90">
+                <p className="text-3xl leading-relaxed font-light text-beige/95">
                   {displayedText}
                   {!isComplete && (
                     <motion.span
                       animate={{ opacity: [1, 0] }}
                       transition={{ duration: 0.8, repeat: Infinity }}
-                      className="inline-block w-1 h-8 bg-gold ml-1 align-middle"
+                      className="inline-block w-1 h-10 bg-gold ml-2 align-middle"
                     />
                   )}
                 </p>
               </motion.div>
 
               {!isComplete && (
-                <Button
-                  onClick={handleRevealAll}
-                  variant="outline"
-                  size="sm"
-                  className="mt-4"
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1 }}
                 >
-                  <FastForward className="w-4 h-4 mr-2" />
-                  Reveal All
-                </Button>
+                  <Button
+                    onClick={handleRevealAll}
+                    variant="outline"
+                    size="sm"
+                    className="mt-6 elegant-border"
+                  >
+                    <FastForward className="w-4 h-4 mr-2" />
+                    Reveal All
+                  </Button>
+                </motion.div>
               )}
             </div>
 
@@ -100,13 +113,13 @@ const SecretMessage = () => {
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
+                transition={{ delay: 0.4 }}
                 className="pt-8"
               >
                 <Button
                   onClick={() => navigate('/')}
                   size="lg"
-                  className="gold-glow"
+                  className="gold-glow smooth-hover py-7 text-lg"
                 >
                   Return Home
                 </Button>
