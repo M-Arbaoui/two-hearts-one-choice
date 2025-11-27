@@ -82,12 +82,13 @@ const Results = () => {
   }
 
   return (
-    <div className="min-h-screen p-6 py-10">
-      <div className="w-full max-w-3xl mx-auto space-y-8">
+    <div className="min-h-screen p-4 sm:p-6 md:p-8 py-6 sm:py-8 md:py-10">
+      <div className="w-full max-w-3xl mx-auto space-y-6 sm:space-y-8">
         <motion.div
           initial={{ opacity: 0, y: -30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
+          className="mb-4 sm:mb-0"
         >
           <Logo />
         </motion.div>
@@ -95,7 +96,7 @@ const Results = () => {
         <Button
           variant="ghost"
           onClick={() => navigate('/')}
-          className="text-beige hover:text-gold transition-colors"
+          className="text-beige hover:text-gold transition-colors touch-manipulation"
         >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Home
@@ -103,41 +104,54 @@ const Results = () => {
 
         {/* Hero Result Card */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, type: "spring" }}
+          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ 
+            duration: 0.6, 
+            type: "spring",
+            stiffness: 100
+          }}
         >
-          <Card className="glass-card p-12 text-center space-y-8">
+          <Card className="glass-card p-6 sm:p-8 md:p-12 text-center space-y-6 sm:space-y-8">
             <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: 1 }}
-              transition={{ delay: 0.3, type: "spring", stiffness: 200 }}
+              initial={{ scale: 0, rotate: -180 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ 
+                delay: 0.3, 
+                type: "spring", 
+                stiffness: 200,
+                damping: 15
+              }}
             >
-              <Heart className="w-24 h-24 text-gold mx-auto fill-gold drop-shadow-xl" />
+              <Heart className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 text-gold mx-auto fill-gold drop-shadow-xl" />
             </motion.div>
 
-            <div className="space-y-3">
-              <h1 className="text-5xl font-serif font-bold">Quiz Complete!</h1>
-              <p className="text-muted-foreground text-xl">
+            <div className="space-y-2 sm:space-y-3">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-bold px-4">Quiz Complete!</h1>
+              <p className="text-muted-foreground text-base sm:text-lg md:text-xl px-4">
                 You answered all {quiz.questions.length} questions
               </p>
             </div>
 
             <motion.div 
-              className="bg-primary/10 p-10 rounded-xl elegant-border"
+              className="bg-primary/10 p-6 sm:p-8 md:p-10 rounded-xl elegant-border"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
             >
               <motion.div
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.6, type: "spring" }}
-                className="text-7xl font-bold text-gold mb-3"
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ 
+                  delay: 0.7, 
+                  type: "spring",
+                  stiffness: 150
+                }}
+                className="text-5xl sm:text-6xl md:text-7xl font-bold text-gold mb-2 sm:mb-3"
               >
                 {matchRate}%
               </motion.div>
-              <p className="text-base text-muted-foreground font-medium">
+              <p className="text-sm sm:text-base text-muted-foreground font-medium">
                 Your Score
               </p>
             </motion.div>
@@ -146,10 +160,10 @@ const Results = () => {
               <motion.div 
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.8, type: "spring" }}
-                className="bg-destructive/10 p-6 rounded-xl border border-destructive/30"
+                transition={{ delay: 0.9, type: "spring" }}
+                className="bg-destructive/10 p-4 sm:p-5 md:p-6 rounded-xl border border-destructive/30"
               >
-                <p className="text-xl font-medium text-destructive">
+                <p className="text-base sm:text-lg md:text-xl font-medium text-destructive px-2">
                   {matchRate < 30 
                     ? "😬 Yikes... Are you sure you two even know each other? Time for a serious catch-up!"
                     : matchRate < 45
@@ -164,10 +178,10 @@ const Results = () => {
               <motion.div 
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.8, type: "spring" }}
-                className="bg-primary/10 p-6 rounded-xl border border-primary/30"
+                transition={{ delay: 0.9, type: "spring" }}
+                className="bg-primary/10 p-4 sm:p-5 md:p-6 rounded-xl border border-primary/30"
               >
-                <p className="text-xl font-medium">
+                <p className="text-base sm:text-lg md:text-xl font-medium px-2">
                   💛 Not bad! You're getting there. Keep the connection strong!
                 </p>
               </motion.div>
@@ -177,10 +191,10 @@ const Results = () => {
               <motion.div 
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.8, type: "spring" }}
-                className="bg-gold/10 p-6 rounded-xl border border-gold/30"
+                transition={{ delay: 0.9, type: "spring" }}
+                className="bg-gold/10 p-4 sm:p-5 md:p-6 rounded-xl border border-gold/30"
               >
-                <p className="text-xl font-medium text-gold">
+                <p className="text-base sm:text-lg md:text-xl font-medium text-gold px-2">
                   {matchRate === 100 
                     ? "✨ Perfect match! You two are absolutely in sync! 🎉"
                     : "🌟 Amazing connection! You really know each other well!"
@@ -189,16 +203,20 @@ const Results = () => {
               </motion.div>
             )}
 
-            <Button onClick={handleShare} variant="outline" className="w-full elegant-border smooth-hover py-6 text-lg">
-              <Share2 className="w-5 h-5 mr-2" />
+            <Button 
+              onClick={handleShare} 
+              variant="outline" 
+              className="w-full elegant-border smooth-hover py-5 sm:py-6 text-base sm:text-lg touch-manipulation"
+            >
+              <Share2 className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
               Share Quiz
             </Button>
           </Card>
         </motion.div>
 
         {/* Question Breakdown */}
-        <div className="space-y-6">
-          <h2 className="text-3xl font-serif font-bold text-beige">
+        <div className="space-y-5 sm:space-y-6">
+          <h2 className="text-2xl sm:text-3xl font-serif font-bold text-beige px-2">
             Answer Breakdown
           </h2>
 
@@ -209,21 +227,25 @@ const Results = () => {
             return (
               <motion.div
                 key={question.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.7 + index * 0.1 }}
+                initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                transition={{ 
+                  delay: 0.8 + index * 0.1,
+                  duration: 0.4,
+                  ease: [0.43, 0.13, 0.23, 0.96]
+                }}
               >
-                <Card className="glass-card p-8 space-y-4 smooth-hover">
-                  <div className="flex items-start justify-between gap-4">
-                    <div className="flex-1 space-y-4">
-                      <div className="flex items-start gap-4">
-                        <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center text-base font-bold">
+                <Card className="glass-card p-5 sm:p-6 md:p-8 space-y-4 smooth-hover">
+                  <div className="flex items-start justify-between gap-3 sm:gap-4">
+                    <div className="flex-1 space-y-3 sm:space-y-4">
+                      <div className="flex items-start gap-3 sm:gap-4">
+                        <div className="flex-shrink-0 w-8 h-8 sm:w-9 sm:h-9 md:w-10 md:h-10 rounded-full bg-gold/20 flex items-center justify-center text-sm sm:text-base font-bold">
                           {index + 1}
                         </div>
-                        <p className="font-medium text-lg pt-1">{question.prompt}</p>
+                        <p className="font-medium text-base sm:text-lg pt-1">{question.prompt}</p>
                       </div>
-                      <div className="pl-14 space-y-4">
-                        <div className="grid grid-cols-2 gap-4">
+                      <div className="pl-11 sm:pl-13 md:pl-14 space-y-3 sm:space-y-4">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                           <div className={`p-4 rounded-lg border-2 ${answer?.choice === 'A' ? 'border-gold bg-gold/10' : 'border-border/50'}`}>
                             {question.choiceAImage && (
                               <img 
@@ -263,7 +285,7 @@ const Results = () => {
                         </div>
                       </div>
                     </div>
-                    <div className="text-3xl flex-shrink-0">
+                    <div className="text-2xl sm:text-3xl flex-shrink-0">
                       {isCorrect ? '✅' : '❌'}
                     </div>
                   </div>
@@ -276,14 +298,14 @@ const Results = () => {
         {/* Secret Message */}
         {quiz.secretMessage && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1 }}
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 1, type: "spring" }}
           >
-            <Card className="glass-card p-8 text-center space-y-4 border-gold/40">
-              <div className="text-4xl">✨</div>
-              <h3 className="text-2xl font-serif font-bold">A Special Message</h3>
-              <p className="text-lg leading-relaxed italic">
+            <Card className="glass-card p-6 sm:p-8 text-center space-y-3 sm:space-y-4 border-gold/40">
+              <div className="text-3xl sm:text-4xl">✨</div>
+              <h3 className="text-xl sm:text-2xl font-serif font-bold px-4">A Special Message</h3>
+              <p className="text-base sm:text-lg leading-relaxed italic px-4">
                 "{quiz.secretMessage}"
               </p>
             </Card>
@@ -291,17 +313,17 @@ const Results = () => {
         )}
 
         {/* Actions */}
-        <div className="flex gap-6">
+        <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
           <Button
             onClick={() => navigate('/create')}
             variant="outline"
-            className="flex-1 elegant-border smooth-hover py-6 text-lg"
+            className="flex-1 elegant-border smooth-hover py-5 sm:py-6 text-base sm:text-lg touch-manipulation"
           >
             Create Your Own
           </Button>
           <Button
             onClick={() => navigate('/take')}
-            className="flex-1 smooth-hover py-6 text-lg"
+            className="flex-1 smooth-hover py-5 sm:py-6 text-base sm:text-lg touch-manipulation"
           >
             Take Another Quiz
           </Button>
