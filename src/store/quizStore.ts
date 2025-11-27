@@ -16,6 +16,7 @@ export interface Quiz {
   description?: string;
   questions: Question[];
   secretMessage?: string;
+  creatorAnswers?: Answer[];
   createdAt: number;
 }
 

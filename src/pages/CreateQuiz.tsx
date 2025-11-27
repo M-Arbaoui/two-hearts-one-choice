@@ -19,8 +19,10 @@ const CreateQuiz = () => {
   const [questions, setQuestions] = useState<Question[]>([
     { id: '1', prompt: '', choiceA: '', choiceB: '', hint: '' },
   ]);
+  const [creatorAnswers, setCreatorAnswers] = useState<Record<string, 'A' | 'B'>>({});
   const [generatedCode, setGeneratedCode] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [showAnswerStep, setShowAnswerStep] = useState(false);
 
   const addQuestion = () => {
     setQuestions([
@@ -73,12 +75,21 @@ const CreateQuiz = () => {
     return true;
   };
 
-  const handleCreate = () => {
+  const handleContinueToAnswers = () => {
     if (!validateQuiz()) return;
+    setShowAnswerStep(true);
+  };
+
+  const handleCreate = () => {
+    const answersArray = Object.entries(creatorAnswers).map(([questionId, choice]) => ({
+      questionId,
+      choice,
+    }));
 
     const code = createQuiz({
       title: 'Our Quiz',
       questions,
+      creatorAnswers: answersArray,
     });
 
     setGeneratedCode(code);
@@ -172,6 +183,88 @@ const CreateQuiz = () => {
             </Button>
           </Card>
         </motion.div>
+      </div>
+    );
+  }
+
+  if (showAnswerStep) {
+    const allAnswered = questions.every(q => creatorAnswers[q.id]);
+    
+    return (
+      <div className="min-h-screen p-6 py-10">
+        <div className="w-full max-w-3xl mx-auto space-y-8">
+          <motion.div
+            initial={{ opacity: 0, y: -30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <Logo />
+          </motion.div>
+          
+          <Button
+            variant="ghost"
+            onClick={() => setShowAnswerStep(false)}
+            className="text-beige hover:text-gold transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Questions
+          </Button>
+
+          <div className="space-y-6">
+            <div>
+              <h2 className="text-3xl font-serif font-bold text-beige mb-2">
+                Now Answer Your Own Quiz
+              </h2>
+              <p className="text-muted-foreground text-lg">
+                Your answers will be used to calculate the match percentage
+              </p>
+            </div>
+
+            {questions.map((question, index) => (
+              <motion.div
+                key={question.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <Card className="glass-card p-8 space-y-6">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-gold/20 flex items-center justify-center">
+                      <span className="text-base font-bold text-gold">{index + 1}</span>
+                    </div>
+                    <p className="text-lg font-medium">{question.prompt}</p>
+                  </div>
+
+                  <div className="grid gap-4">
+                    <Button
+                      variant={creatorAnswers[question.id] === 'A' ? 'default' : 'outline'}
+                      onClick={() => setCreatorAnswers({ ...creatorAnswers, [question.id]: 'A' })}
+                      className="w-full py-6 text-lg elegant-border"
+                    >
+                      A: {question.choiceA}
+                    </Button>
+                    <Button
+                      variant={creatorAnswers[question.id] === 'B' ? 'default' : 'outline'}
+                      onClick={() => setCreatorAnswers({ ...creatorAnswers, [question.id]: 'B' })}
+                      className="w-full py-6 text-lg elegant-border"
+                    >
+                      B: {question.choiceB}
+                    </Button>
+                  </div>
+                </Card>
+              </motion.div>
+            ))}
+          </div>
+
+          <Button
+            onClick={handleCreate}
+            disabled={!allAnswered}
+            size="lg"
+            className="w-full gold-glow smooth-hover py-7 text-lg font-medium"
+          >
+            Create Quiz ✨
+          </Button>
+        </div>
       </div>
     );
   }
@@ -306,11 +399,11 @@ const CreateQuiz = () => {
           transition={{ delay: 0.3 }}
         >
           <Button
-            onClick={handleCreate}
+            onClick={handleContinueToAnswers}
             size="lg"
             className="w-full gold-glow smooth-hover py-7 text-lg font-medium"
           >
-            Create Quiz ✨
+            Continue to Answer Quiz ✨
           </Button>
         </motion.div>
       </div>
