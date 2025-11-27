@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Trash2, GripVertical, Copy, Check, ArrowLeft } from 'lucide-react';
+import { Plus, Trash2, GripVertical, Copy, Check, ArrowLeft, Image as ImageIcon, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -10,6 +10,7 @@ import { useQuizStore, Question } from '@/store/quizStore';
 import { useToast } from '@/hooks/use-toast';
 import { Label } from '@/components/ui/label';
 import Logo from '@/components/Logo';
+import { supabase } from '@/integrations/supabase/client';
 
 const CreateQuiz = () => {
   const navigate = useNavigate();
@@ -21,12 +22,62 @@ const CreateQuiz = () => {
   ]);
   const [generatedCode, setGeneratedCode] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  const [uploadingImages, setUploadingImages] = useState<Record<string, boolean>>({});
 
   const addQuestion = () => {
     setQuestions([
       ...questions,
       { id: Date.now().toString(), prompt: '', choiceA: '', choiceB: '', hint: '', expectedChoice: undefined },
     ]);
+  };
+
+  const handleImageUpload = async (questionId: string, choice: 'A' | 'B', file: File) => {
+    const uploadKey = `${questionId}-${choice}`;
+    setUploadingImages(prev => ({ ...prev, [uploadKey]: true }));
+
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
+      const filePath = `${fileName}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('quiz-images')
+        .upload(filePath, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('quiz-images')
+        .getPublicUrl(filePath);
+
+      setQuestions(questions.map(q => 
+        q.id === questionId 
+          ? { ...q, [choice === 'A' ? 'choiceAImage' : 'choiceBImage']: publicUrl }
+          : q
+      ));
+
+      toast({
+        title: "Image uploaded!",
+        description: "Your image has been added to the quiz",
+      });
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      toast({
+        title: "Upload failed",
+        description: "Could not upload image. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setUploadingImages(prev => ({ ...prev, [uploadKey]: false }));
+    }
+  };
+
+  const removeImage = (questionId: string, choice: 'A' | 'B') => {
+    setQuestions(questions.map(q => 
+      q.id === questionId 
+        ? { ...q, [choice === 'A' ? 'choiceAImage' : 'choiceBImage']: undefined }
+        : q
+    ));
   };
 
   const removeQuestion = (id: string) => {
@@ -265,7 +316,7 @@ const CreateQuiz = () => {
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
+                    <div className="space-y-3">
                       <Label>Choice A</Label>
                       <Input
                         value={question.choiceA}
@@ -276,8 +327,48 @@ const CreateQuiz = () => {
                         maxLength={120}
                         className="bg-background/50"
                       />
+                      <div className="space-y-2">
+                        {question.choiceAImage ? (
+                          <div className="relative">
+                            <img 
+                              src={question.choiceAImage} 
+                              alt="Choice A" 
+                              className="w-full h-32 object-cover rounded-lg"
+                            />
+                            <Button
+                              type="button"
+                              size="sm"
+                              variant="destructive"
+                              className="absolute top-2 right-2"
+                              onClick={() => removeImage(question.id, 'A')}
+                            >
+                              <X className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        ) : (
+                          <div>
+                            <Input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) handleImageUpload(question.id, 'A', file);
+                              }}
+                              className="hidden"
+                              id={`image-a-${question.id}`}
+                            />
+                            <Label
+                              htmlFor={`image-a-${question.id}`}
+                              className="flex items-center justify-center gap-2 p-3 border-2 border-dashed rounded-lg cursor-pointer hover:bg-accent/50 transition-colors"
+                            >
+                              <ImageIcon className="w-4 h-4" />
+                              <span className="text-sm">Add image (optional)</span>
+                            </Label>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-3">
                       <Label>Choice B</Label>
                       <Input
                         value={question.choiceB}
@@ -288,6 +379,46 @@ const CreateQuiz = () => {
                         maxLength={120}
                         className="bg-background/50"
                       />
+                      <div className="space-y-2">
+                        {question.choiceBImage ? (
+                          <div className="relative">
+                            <img 
+                              src={question.choiceBImage} 
+                              alt="Choice B" 
+                              className="w-full h-32 object-cover rounded-lg"
+                            />
+                            <Button
+                              type="button"
+                              size="sm"
+                              variant="destructive"
+                              className="absolute top-2 right-2"
+                              onClick={() => removeImage(question.id, 'B')}
+                            >
+                              <X className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        ) : (
+                          <div>
+                            <Input
+                              type="file"
+                              accept="image/*"
+                              onChange={(e) => {
+                                const file = e.target.files?.[0];
+                                if (file) handleImageUpload(question.id, 'B', file);
+                              }}
+                              className="hidden"
+                              id={`image-b-${question.id}`}
+                            />
+                            <Label
+                              htmlFor={`image-b-${question.id}`}
+                              className="flex items-center justify-center gap-2 p-3 border-2 border-dashed rounded-lg cursor-pointer hover:bg-accent/50 transition-colors"
+                            >
+                              <ImageIcon className="w-4 h-4" />
+                              <span className="text-sm">Add image (optional)</span>
+                            </Label>
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
 
