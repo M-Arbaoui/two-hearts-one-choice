@@ -28,13 +28,21 @@ const Results = () => {
       return;
     }
 
-    // Calculate match rate (for now, just show completion)
-    // In future, could compare with creator's expected answers
-    const rate = 100; // Placeholder
-    setMatchRate(rate);
+    // Calculate match rate by comparing with creator's answers
+    if (quiz.creatorAnswers && quiz.creatorAnswers.length > 0) {
+      const matches = attempt.answers.filter(takerAnswer => {
+        const creatorAnswer = quiz.creatorAnswers?.find(ca => ca.questionId === takerAnswer.questionId);
+        return creatorAnswer && creatorAnswer.choice === takerAnswer.choice;
+      }).length;
+      const rate = Math.round((matches / quiz.questions.length) * 100);
+      setMatchRate(rate);
+    } else {
+      // Fallback if no creator answers
+      setMatchRate(100);
+    }
 
     // Show confetti for high match rate
-    if (rate >= 70 && !showConfetti) {
+    if (matchRate >= 70 && !showConfetti) {
       setShowConfetti(true);
       const duration = 3000;
       const end = Date.now() + duration;
@@ -135,9 +143,56 @@ const Results = () => {
                 {matchRate}%
               </motion.div>
               <p className="text-base text-muted-foreground font-medium">
-                Connection Score
+                Match Score
               </p>
             </motion.div>
+
+            {matchRate < 60 && (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.8, type: "spring" }}
+                className="bg-destructive/10 p-6 rounded-xl border border-destructive/30"
+              >
+                <p className="text-xl font-medium text-destructive">
+                  {matchRate < 30 
+                    ? "😬 Yikes... Are you sure you two even know each other? Time for a serious catch-up!"
+                    : matchRate < 45
+                    ? "😅 Well this is awkward... Maybe you should actually talk more?"
+                    : "🤔 Not quite in sync yet, but there's still hope!"
+                  }
+                </p>
+              </motion.div>
+            )}
+
+            {matchRate >= 60 && matchRate < 80 && (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.8, type: "spring" }}
+                className="bg-primary/10 p-6 rounded-xl border border-primary/30"
+              >
+                <p className="text-xl font-medium">
+                  💛 Not bad! You're getting there. Keep the connection strong!
+                </p>
+              </motion.div>
+            )}
+
+            {matchRate >= 80 && (
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ delay: 0.8, type: "spring" }}
+                className="bg-gold/10 p-6 rounded-xl border border-gold/30"
+              >
+                <p className="text-xl font-medium text-gold">
+                  {matchRate === 100 
+                    ? "✨ Perfect match! You two are absolutely in sync! 🎉"
+                    : "🌟 Amazing connection! You really know each other well!"
+                  }
+                </p>
+              </motion.div>
+            )}
 
             <Button onClick={handleShare} variant="outline" className="w-full elegant-border smooth-hover py-6 text-lg">
               <Share2 className="w-5 h-5 mr-2" />
