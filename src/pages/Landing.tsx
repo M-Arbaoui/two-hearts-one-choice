@@ -43,7 +43,7 @@ const Landing = () => {
             transition={{ delay: 0.7 }}
             className="text-beige/80 text-lg max-w-md mx-auto leading-relaxed px-4"
           >
-            A private, intimate game to discover how well you know each other
+            A private game for the two of us, to see how our choices align.
           </motion.p>
 
           {/* CTA Buttons */}
