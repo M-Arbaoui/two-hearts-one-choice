@@ -222,21 +222,45 @@ const Results = () => {
                         </div>
                         <p className="font-medium text-lg pt-1">{question.prompt}</p>
                       </div>
-                      <div className="pl-14 space-y-2">
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm text-muted-foreground">Your answer:</span>
-                          <span className={`text-base font-medium ${isCorrect ? 'text-green-500' : 'text-red-400'}`}>
-                            {answer?.choice}: {answer?.choice === 'A' ? question.choiceA : question.choiceB}
-                          </span>
+                      <div className="pl-14 space-y-4">
+                        <div className="grid grid-cols-2 gap-4">
+                          <div className={`p-4 rounded-lg border-2 ${answer?.choice === 'A' ? 'border-gold bg-gold/10' : 'border-border/50'}`}>
+                            {question.choiceAImage && (
+                              <img 
+                                src={question.choiceAImage} 
+                                alt="Choice A" 
+                                className="w-full h-32 object-cover rounded mb-2"
+                              />
+                            )}
+                            <p className="text-sm font-medium">A: {question.choiceA}</p>
+                          </div>
+                          <div className={`p-4 rounded-lg border-2 ${answer?.choice === 'B' ? 'border-gold bg-gold/10' : 'border-border/50'}`}>
+                            {question.choiceBImage && (
+                              <img 
+                                src={question.choiceBImage} 
+                                alt="Choice B" 
+                                className="w-full h-32 object-cover rounded mb-2"
+                              />
+                            )}
+                            <p className="text-sm font-medium">B: {question.choiceB}</p>
+                          </div>
                         </div>
-                        {!isCorrect && (
+                        <div className="space-y-2">
                           <div className="flex items-center gap-2">
-                            <span className="text-sm text-muted-foreground">Correct answer:</span>
-                            <span className="text-base font-medium text-green-500">
-                              {question.expectedChoice}: {question.expectedChoice === 'A' ? question.choiceA : question.choiceB}
+                            <span className="text-sm text-muted-foreground">Your answer:</span>
+                            <span className={`text-base font-medium ${isCorrect ? 'text-green-500' : 'text-red-400'}`}>
+                              {answer?.choice}: {answer?.choice === 'A' ? question.choiceA : question.choiceB}
                             </span>
                           </div>
-                        )}
+                          {!isCorrect && (
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm text-muted-foreground">Correct answer:</span>
+                              <span className="text-base font-medium text-green-500">
+                                {question.expectedChoice}: {question.expectedChoice === 'A' ? question.choiceA : question.choiceB}
+                              </span>
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
                     <div className="text-3xl flex-shrink-0">

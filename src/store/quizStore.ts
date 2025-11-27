@@ -6,6 +6,8 @@ export interface Question {
   prompt: string;
   choiceA: string;
   choiceB: string;
+  choiceAImage?: string;
+  choiceBImage?: string;
   hint?: string;
   expectedChoice?: 'A' | 'B';
 }

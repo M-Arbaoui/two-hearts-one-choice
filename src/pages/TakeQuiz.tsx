@@ -222,6 +222,13 @@ const TakeQuiz = () => {
                   } disabled:opacity-50`}
                 >
                   <div className="text-xs text-muted-foreground mb-3 uppercase tracking-wide">Choice A (Press 1)</div>
+                  {currentQuestion.choiceAImage && (
+                    <img 
+                      src={currentQuestion.choiceAImage} 
+                      alt="Choice A" 
+                      className="w-full h-48 object-cover rounded-lg mb-4"
+                    />
+                  )}
                   <div className="text-xl font-medium">{currentQuestion.choiceA}</div>
                 </motion.button>
 
@@ -239,6 +246,13 @@ const TakeQuiz = () => {
                   } disabled:opacity-50`}
                 >
                   <div className="text-xs text-muted-foreground mb-3 uppercase tracking-wide">Choice B (Press 2)</div>
+                  {currentQuestion.choiceBImage && (
+                    <img 
+                      src={currentQuestion.choiceBImage} 
+                      alt="Choice B" 
+                      className="w-full h-48 object-cover rounded-lg mb-4"
+                    />
+                  )}
                   <div className="text-xl font-medium">{currentQuestion.choiceB}</div>
                 </motion.button>
               </div>
